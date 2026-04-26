@@ -1,2 +1,742 @@
-# Dashboard-qtp
-Demo CX qtp
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MODO · Sistema de Calidad CX · Ursula Tello</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#003DA5;--teal:#00C9A7;--teal2:#7FDFD0;--dark:#00102E;--dark2:#001A4D;--card:#012A7A;--lb:#5B8DEF;--gray:#7B9BC8;--gray2:#B8D4F0;--red:#EF5350;--orange:#FFA726;--gold:#FFD700;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:#fff;min-height:100vh;}
+.app{display:grid;grid-template-columns:218px 1fr;min-height:100vh;}
+aside{background:rgba(0,13,43,.97);border-right:1px solid rgba(91,141,239,.15);padding:22px 0;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;overflow-y:auto;}
+.logo{padding:0 18px 20px;border-bottom:1px solid rgba(91,141,239,.1);margin-bottom:18px;}
+.lw{font-family:'Space Mono',monospace;font-size:17px;font-weight:700;letter-spacing:5px;}
+.ld{display:inline-block;width:6px;height:6px;background:var(--teal);border-radius:50%;margin-left:2px;vertical-align:middle;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.ls{font-size:9px;color:var(--gray);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px;}
+.ns{padding:0 10px;margin-bottom:4px;}
+.nl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gray);padding:0 6px;margin-bottom:5px;font-family:'Space Mono',monospace;}
+.ni{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;font-size:12px;color:var(--gray2);cursor:pointer;transition:all .2s;margin-bottom:1px;border:1px solid transparent;}
+.ni:hover{background:rgba(0,61,165,.2);color:#fff;}
+.ni.active{background:rgba(0,61,165,.35);color:#fff;border-color:rgba(0,201,167,.3);}
+.nb{margin-left:auto;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:2px 5px;border-radius:8px;animation:pulseR 1.5s infinite;}
+@keyframes pulseR{0%,100%{opacity:1}50%{opacity:.5}}
+.nb.t{background:rgba(0,201,167,.2);color:var(--teal);border:1px solid rgba(0,201,167,.3);animation:none;}
+.sb-foot{margin-top:auto;padding:12px 18px;border-top:1px solid rgba(91,141,239,.1);}
+.av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--teal));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+main{padding:26px;overflow-y:auto;}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:10px;flex-wrap:wrap;}
+.clock{font-family:'Space Mono',monospace;font-size:11px;color:var(--teal);padding:5px 11px;background:rgba(0,45,140,.3);border:1px solid rgba(91,141,239,.2);border-radius:7px;letter-spacing:1px;}
+.panel{display:none;animation:fu .35s ease;}
+.panel.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.sl2{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);font-family:'Space Mono',monospace;margin-bottom:5px;}
+.ph2{font-size:19px;font-weight:700;margin-bottom:3px;}
+.pss{font-size:13px;color:var(--gray);margin-bottom:18px;}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.sc{background:rgba(0,45,140,.35);border:1px solid rgba(91,141,239,.18);border-radius:13px;padding:15px;position:relative;overflow:hidden;transition:all .25s;}
+.sc:hover{border-color:rgba(0,201,167,.3);transform:translateY(-2px);}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--g,var(--teal)),transparent);}
+.sv{font-size:26px;font-weight:700;font-family:'Space Mono',monospace;line-height:1.1;}
+.slb{font-size:10px;color:var(--gray);margin-top:3px;}
+.sdelta{font-size:10px;margin-top:5px;}
+.sic{position:absolute;top:12px;right:12px;font-size:18px;opacity:.5;}
+.up{color:var(--teal)}.dn{color:var(--red)}.ne{color:var(--orange)}
+.cw{background:rgba(0,26,77,.5);border:1px solid rgba(91,141,239,.15);border-radius:13px;overflow:hidden;margin-bottom:18px;}
+.ch{padding:12px 16px;background:rgba(0,31,91,.5);border-bottom:1px solid rgba(91,141,239,.12);display:flex;align-items:center;justify-content:space-between;}
+.ct{font-size:13px;font-weight:700;}
+table{width:100%;border-collapse:collapse;}
+thead th{padding:8px 12px;text-align:left;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--gray);border-bottom:1px solid rgba(91,141,239,.1);font-family:'Space Mono',monospace;}
+tbody tr{border-bottom:1px solid rgba(91,141,239,.07);transition:background .2s;cursor:pointer;}
+tbody tr:hover{background:rgba(0,61,165,.15);}
+tbody td{padding:10px 12px;font-size:12px;color:var(--gray2);}
+tbody td:first-child{color:#fff;font-weight:500;}
+.sbw{display:flex;align-items:center;gap:7px;}
+.sbar{flex:1;height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.sfi{height:100%;border-radius:3px;transition:width 1s ease;}
+.snum{font-size:11px;font-weight:700;font-family:'Space Mono',monospace;min-width:26px;}
+.sema{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;}
+.sg_{background:rgba(0,201,167,.15);color:var(--teal);border:1px solid rgba(0,201,167,.3);}
+.sy{background:rgba(255,167,38,.15);color:var(--orange);border:1px solid rgba(255,167,38,.3);}
+.so{background:rgba(239,149,80,.15);color:#EF9550;border:1px solid rgba(239,149,80,.3);}
+.sr{background:rgba(239,83,80,.15);color:var(--red);border:1px solid rgba(239,83,80,.3);}
+.t2{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:3px 8px;border-radius:6px;font-weight:600;}
+.tt_{background:rgba(0,201,167,.12);color:var(--teal);border:1px solid rgba(0,201,167,.2);}
+.tb_{background:rgba(0,61,165,.2);color:var(--lb);border:1px solid rgba(91,141,239,.2);}
+.tr_{background:rgba(239,83,80,.12);color:var(--red);border:1px solid rgba(239,83,80,.2);}
+.tg_{background:rgba(255,215,0,.1);color:var(--gold);border:1px solid rgba(255,215,0,.2);}
+.to_{background:rgba(255,167,38,.12);color:var(--orange);border:1px solid rgba(255,167,38,.2);}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.rr{background:rgba(0,45,140,.25);border:1px solid rgba(91,141,239,.12);border-radius:10px;padding:13px;margin-bottom:9px;}
+.rst{width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid rgba(91,141,239,.2);display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:all .15s;}
+.rst:hover,.rst.lit{background:rgba(0,201,167,.2);border-color:var(--teal);transform:scale(1.1);}
+.gw{position:relative;width:150px;height:75px;margin:0 auto 8px;}
+.gt{width:150px;height:75px;border-radius:75px 75px 0 0;background:conic-gradient(from 180deg,#EF5350 0 36deg,#FFA726 36deg 72deg,#FDD835 72deg 108deg,#00C9A7 108deg 144deg,#00E5B8 144deg 180deg);mask:radial-gradient(circle at 50% 100%,transparent 38px,black 39px);}
+.gn{position:absolute;bottom:0;left:50%;width:2px;height:60px;background:#fff;transform-origin:bottom center;transform:translateX(-50%) rotate(var(--ang,-90deg));transition:transform 1.2s cubic-bezier(.34,1.56,.64,1);border-radius:2px;}
+.gn::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:#fff;}
+.pw{background:linear-gradient(135deg,rgba(0,45,140,.5),rgba(0,13,43,.8));border:1.5px solid rgba(0,201,167,.3);border-radius:13px;padding:18px;margin-bottom:18px;}
+.mc2{background:linear-gradient(135deg,rgba(0,61,165,.3),rgba(0,201,167,.1));border:1.5px solid rgba(0,201,167,.3);border-radius:13px;padding:18px;position:relative;overflow:hidden;margin-bottom:16px;}
+.mc2::before{content:'\2605';position:absolute;right:14px;top:10px;font-size:36px;opacity:.1;}
+.mq{font-size:13px;color:var(--gray2);line-height:1.7;font-style:italic;border-left:3px solid var(--teal);padding-left:10px;margin:10px 0;}
+.vc{background:rgba(0,26,77,.5);border:1px solid rgba(91,141,239,.2);border-radius:11px;padding:14px;margin-bottom:9px;transition:all .25s;}
+.vc:hover{border-color:rgba(0,201,167,.3);}
+.vi{background:rgba(0,201,167,.08);border:1px solid rgba(0,201,167,.2);border-radius:7px;padding:8px 10px;font-size:12px;color:var(--teal2);}
+.cod{background:#001233;border:1px solid rgba(91,141,239,.2);border-radius:12px;overflow:hidden;margin-bottom:12px;}
+.cdh{background:rgba(0,31,91,.5);padding:10px 13px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(91,141,239,.12);}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;outline:none;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.bp{background:var(--blue);color:#fff;box-shadow:0 4px 14px rgba(0,61,165,.3);}
+.bp:hover{background:#0052CC;transform:translateY(-1px);}
+.bt{background:rgba(0,201,167,.15);color:var(--teal);border:1px solid rgba(0,201,167,.3);}
+.bt:hover{background:rgba(0,201,167,.25);}
+.bg2{background:rgba(255,255,255,.05);color:var(--gray2);border:1px solid rgba(255,255,255,.08);}
+.bg2:hover{background:rgba(255,255,255,.1);color:#fff;}
+.bsm{padding:5px 11px;font-size:11px;border-radius:7px;}
+.brd{background:rgba(239,83,80,.15);color:var(--red);border:1px solid rgba(239,83,80,.3);}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
+.steps{display:flex;align-items:center;gap:4px;margin-bottom:18px;flex-wrap:wrap;}
+.step{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--gray);padding:5px 9px;border-radius:20px;border:1px solid rgba(91,141,239,.15);transition:all .3s;}
+.step.active{color:#fff;background:rgba(0,61,165,.4);border-color:rgba(0,201,167,.4);}
+.step.done{color:var(--teal);border-color:rgba(0,201,167,.3);}
+.step-num{width:17px;height:17px;border-radius:50%;background:rgba(91,141,239,.2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;}
+.step.active .step-num,.step.done .step-num{background:var(--teal);color:var(--dark);}
+.flow-box{background:rgba(0,201,167,.06);border:1px solid rgba(0,201,167,.2);border-radius:11px;padding:13px 15px;margin-bottom:16px;display:flex;align-items:flex-start;gap:11px;}
+.flow-icon{font-size:19px;flex-shrink:0;}
+.flow-text{font-size:13px;color:var(--teal2);line-height:1.6;}
+.flow-text strong{color:var(--teal);}
+.case-preview{background:rgba(0,13,43,.6);border:1px solid rgba(91,141,239,.2);border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:all .2s;}
+.case-preview:hover{border-color:rgba(0,201,167,.4);background:rgba(0,45,140,.3);}
+.case-preview.selected{border-color:var(--teal);background:rgba(0,61,165,.3);}
+.agent-card{background:rgba(0,45,140,.25);border:1px solid rgba(91,141,239,.15);border-radius:11px;padding:14px;cursor:pointer;transition:all .2s;text-align:center;}
+.agent-card:hover{border-color:rgba(0,201,167,.35);transform:translateY(-2px);}
+.agent-card.selected{border-color:var(--teal);background:rgba(0,61,165,.3);}
+.toast{position:fixed;bottom:20px;right:20px;z-index:500;background:#001A4D;border:1px solid rgba(0,201,167,.3);border-radius:12px;padding:13px 16px;max-width:300px;box-shadow:0 8px 40px rgba(0,0,0,.5);display:none;}
+.toast.show{display:block;animation:ti .4s ease;}
+@keyframes ti{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+.tour-overlay{position:fixed;inset:0;background:rgba(0,10,30,.82);z-index:400;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+.tour-card{background:#001A4D;border:1.5px solid rgba(0,201,167,.35);border-radius:20px;padding:28px 32px;max-width:430px;width:92%;box-shadow:0 24px 80px rgba(0,0,0,.6);animation:fu .4s ease;}
+.tbtn{display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(0,61,165,.3);border:1px solid rgba(91,141,239,.2);border-radius:10px;font-size:13px;color:var(--gray2);cursor:pointer;transition:all .2s;margin-bottom:8px;width:100%;text-align:left;}
+.tbtn:hover{border-color:rgba(0,201,167,.5);background:rgba(0,61,165,.5);color:#fff;}.tbtn *{pointer-events:none;}
+.hint{position:fixed;bottom:65px;left:50%;transform:translateX(-50%);background:#001A4D;border:1px solid rgba(0,201,167,.3);border-radius:10px;padding:9px 16px;font-size:12px;color:var(--gray2);display:none;z-index:300;max-width:88vw;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.4);}
+.hint.show{display:block;animation:ti .3s ease;}
+@media(max-width:700px){.app{grid-template-columns:1fr;}aside{display:none;}.sg,.two,.three{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<!-- TOUR OVERLAY -->
+<div class="tour-overlay" id="tourOverlay">
+  <div class="tour-card">
+    <div style="font-size:30px;margin-bottom:10px">👋</div>
+    <div style="font-size:21px;font-weight:700;margin-bottom:3px">Hola, Ursula Tello</div>
+    <div style="font-size:13px;color:var(--gray);margin-bottom:20px;line-height:1.55">Bienvenida al Sistema de Calidad CX de MODO.<br>¿Qué querés explorar primero?</div>
+    <button class="tbtn" onclick="startTour('dashboard')">📊 &nbsp;<strong style="color:#fff">Dashboard</strong> &nbsp;<span style="color:var(--gray);font-size:12px">Métricas de la semana en tiempo real</span><span style="margin-left:auto;color:var(--teal)">→</span></button>
+    <button class="tbtn" onclick="startTour('auditoria')">📋 &nbsp;<strong style="color:#fff">Auditoría de un caso real</strong> &nbsp;<span style="color:var(--gray);font-size:12px">5 pasos guiados con casos reales</span><span style="margin-left:auto;color:var(--teal)">→</span></button>
+    <button class="tbtn" onclick="startTour('predictor')">🎯 &nbsp;<strong style="color:#fff">Predictor CSAT</strong> &nbsp;<span style="color:var(--gray);font-size:12px">La IA evalúa tu respuesta antes de enviar</span><span style="margin-left:auto;color:var(--teal)">→</span></button>
+    <button class="tbtn" onclick="startTour('agente')">🎓 &nbsp;<strong style="color:#fff">Coaching de agente</strong> &nbsp;<span style="color:var(--gray);font-size:12px">Ver feedback privado y semáforo</span><span style="margin-left:auto;color:var(--teal)">→</span></button>
+    <button class="tbtn" onclick="startTour('modelo')">🏆 &nbsp;<strong style="color:#fff">Caso Modelo de la semana</strong> &nbsp;<span style="color:var(--gray);font-size:12px">El mejor caso analizado por la IA</span><span style="margin-left:auto;color:var(--teal)">→</span></button>
+    <button class="tbtn" onclick="startTour('voz')">💬 &nbsp;<strong style="color:#fff">Voz del Cliente</strong> &nbsp;<span style="color:var(--gray);font-size:12px">CSAT convertido en insights accionables</span><span style="margin-left:auto;color:var(--teal)">→</span></button>
+    <button class="tbtn" onclick="startTour('coaching')">🤖 &nbsp;<strong style="color:#fff">Coaching Bot</strong> &nbsp;<span style="color:var(--gray);font-size:12px">Seleccioná un agente y mirá su feedback</span><span style="margin-left:auto;color:var(--teal)">→</span></button>
+    <button class="btn bt" style="width:100%;justify-content:center;margin-top:6px" onclick="document.getElementById('tourOverlay').style.display='none';nav('dashboard')">Explorar libremente →</button>
+  </div>
+</div>
+
+<!-- HINT -->
+
+<div class="hint" id="hint"><span id="hintTxt"></span> <button onclick="document.getElementById('hint').classList.remove('show')" style="background:none;border:none;color:var(--gray);cursor:pointer;margin-left:8px;font-size:13px">✕</button></div>
+
+<div class="app">
+<aside>
+  <div class="logo">
+    <div class="lw">MODO<span class="ld"></span></div>
+    <div class="ls">Quality System · CX</div>
+  </div>
+  <div class="ns">
+    <div class="nl">Principal</div>
+    <div class="ni" id="ni-dashboard" onclick="nav('dashboard')"><span>📊</span> Dashboard</div>
+    <div class="ni" id="ni-auditoria" onclick="nav('auditoria')"><span>📋</span> Auditoría de Casos <span class="nb">3</span></div>
+    <div class="ni" id="ni-predictor" onclick="nav('predictor')"><span>🎯</span> Predictor CSAT <span class="nb t">IA</span></div>
+  </div>
+  <div class="ns">
+    <div class="nl">Ideas Innovadoras</div>
+    <div class="ni" id="ni-modelo" onclick="nav('modelo')"><span>🏆</span> Caso Modelo</div>
+    <div class="ni" id="ni-voz" onclick="nav('voz')"><span>💬</span> Voz del Cliente</div>
+  </div>
+  <div class="ns">
+    <div class="nl">Equipo</div>
+    <div class="ni" id="ni-agente" onclick="nav('agente')"><span>👥</span> Semáforo Agentes</div>
+    <div class="ni" id="ni-coaching" onclick="nav('coaching')"><span>🎓</span> Coaching Bot</div>
+  </div>
+  <div class="sb-foot">
+    <div style="display:flex;align-items:center;gap:9px">
+      <div class="av">UT</div>
+      <div>
+        <div style="font-size:12px;font-weight:700">Ursula Tello</div>
+        <div style="font-size:9px;color:var(--teal);font-family:'Space Mono',monospace;letter-spacing:.5px">Sr. Experta PTM</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<main>
+<div class="topbar">
+  <div>
+    <div style="font-size:20px;font-weight:700" id="pageTitle">Dashboard de Calidad</div>
+    <div style="font-size:12px;color:var(--gray);margin-top:2px" id="pageSub">Semana 16 · Abril 2026 · 47 casos auditados</div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+    <div class="clock" id="clock">--:--:--</div>
+    <button class="btn bg2 bsm" onclick="nextAlert()">🔔 Alertas (3)</button>
+    <button class="btn bg2 bsm" onclick="var o=document.getElementById('tourOverlay');o.style.display='flex';">☰ Menú</button>
+  </div>
+</div>
+
+<!-- ════ DASHBOARD ════ -->
+
+<div class="panel active" id="p-dashboard">
+  <div class="flow-box">
+    <div class="flow-icon">📊</div>
+    <div class="flow-text"><strong>Dashboard en tiempo real.</strong> Las 4 métricas clave se actualizan desde Salesforce vía Zapier. Los contadores se animan al cargar y el gráfico muestra la evolución de las últimas 4 semanas.</div>
+  </div>
+  <div class="sg">
+    <div class="sc" style="--g:#00C9A7"><div class="sic">⭐</div><div class="sl2">CSAT Semana</div><div class="sv" style="color:var(--teal)" id="s1">0</div><div class="slb">Promedio / 5.0</div><div class="sdelta up">↑ +0.4 vs semana ant.</div></div>
+    <div class="sc" style="--g:#5B8DEF"><div class="sic">📋</div><div class="sl2">Calidad Interna</div><div class="sv" style="color:var(--lb)" id="s2">0</div><div class="slb">Puntaje promedio</div><div class="sdelta up">↑ +6 puntos</div></div>
+    <div class="sc" style="--g:#EF5350"><div class="sic">⚠️</div><div class="sl2">Casos en Riesgo</div><div class="sv" style="color:var(--red)" id="s3">0</div><div class="slb">CSAT estimado ≤ 3</div><div class="sdelta dn">↓ Requieren atención</div></div>
+    <div class="sc" style="--g:#FFA726"><div class="sic">🔄</div><div class="sl2">Cobertura Audit.</div><div class="sv" style="color:var(--orange)" id="s4">0</div><div class="slb">Casos auditados</div><div class="sdelta up">↑ Meta: 80%</div></div>
+  </div>
+  <div class="two" style="margin-bottom:18px">
+    <div class="cw">
+      <div class="ch"><div class="ct">📐 Dimensiones de Calidad</div><span class="t2 tt_">Esta semana</span></div>
+      <div style="padding:15px" id="dims"></div>
+    </div>
+    <div class="cw">
+      <div class="ch"><div class="ct">📈 Tendencia Mensual</div><span class="t2 tb_">4 semanas</span></div>
+      <div style="padding:12px"><canvas id="tc" width="275" height="165"></canvas></div>
+    </div>
+  </div>
+  <div class="cw">
+    <div class="ch"><div class="ct">🔍 Últimas Auditorías - clic para auditar</div><button class="btn bp bsm" onclick="startTour('auditoria')">Ir a auditar →</button></div>
+    <table><thead><tr><th>Caso</th><th>Cliente · Motivo</th><th>Agente</th><th>Score IA</th><th>Estado</th><th></th></tr></thead>
+    <tbody id="dashTable"></tbody></table>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;padding-top:12px;border-top:1px solid rgba(91,141,239,.08)">
+    <span style="font-size:11px;color:var(--gray);align-self:center">Explorar:</span>
+    <button class="btn bg2 bsm" onclick="startTour('auditoria')">📋 Auditar caso</button>
+    <button class="btn bg2 bsm" onclick="startTour('predictor')">🎯 Predictor CSAT</button>
+    <button class="btn bg2 bsm" onclick="startTour('agente')">👥 Ver agentes</button>
+    <button class="btn bg2 bsm" onclick="startTour('modelo')">🏆 Caso Modelo</button>
+  </div>
+</div>
+
+<!-- ════ AUDITORIA ════ -->
+
+<div class="panel" id="p-auditoria">
+  <div class="steps" id="auditSteps">
+    <div class="step active" id="as1"><div class="step-num">1</div>Elegir caso</div>
+    <span style="color:rgba(91,141,239,.3);font-size:10px">›</span>
+    <div class="step" id="as2"><div class="step-num">2</div>Leer el caso</div>
+    <span style="color:rgba(91,141,239,.3);font-size:10px">›</span>
+    <div class="step" id="as3"><div class="step-num">3</div>Análisis IA</div>
+    <span style="color:rgba(91,141,239,.3);font-size:10px">›</span>
+    <div class="step" id="as4"><div class="step-num">4</div>Calificar</div>
+    <span style="color:rgba(91,141,239,.3);font-size:10px">›</span>
+    <div class="step" id="as5"><div class="step-num">5</div>Resultado</div>
+  </div>
+  <div id="audit-step1">
+    <div class="flow-box"><div class="flow-icon">📋</div><div class="flow-text"><strong>Paso 1:</strong> Seleccioná el caso que querés auditar. Los marcados en rojo son de <strong>auditoría obligatoria</strong> - la IA detectó riesgo de CSAT bajo automáticamente via Zapier.</div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:14px" id="caseCards"></div>
+    <button class="btn bp" id="btnReadCase" disabled onclick="auditStep(2)">Leer el caso seleccionado →</button>
+  </div>
+  <div id="audit-step2" style="display:none">
+    <div class="flow-box"><div class="flow-icon">💬</div><div class="flow-text"><strong>Paso 2:</strong> Leé el caso completo - el mensaje real del cliente y la respuesta del agente. Conocer el contexto es fundamental antes de evaluar.</div></div>
+    <div style="background:rgba(0,13,43,.7);border:1px solid rgba(91,141,239,.2);border-radius:12px;padding:16px;margin-bottom:13px" id="caseDetail"></div>
+    <div style="display:flex;gap:8px"><button class="btn bp" onclick="auditStep(3)">Ver pre-análisis de IA →</button><button class="btn bg2" onclick="auditStep(1)">← Volver</button></div>
+  </div>
+  <div id="audit-step3" style="display:none">
+    <div class="flow-box"><div class="flow-icon">🤖</div><div class="flow-text"><strong>Paso 3:</strong> La IA analizó el caso automáticamente. Identifica el tono emocional, la calidad de la resolución y el CSAT probable. Esto guía al auditor a las dimensiones de riesgo.</div></div>
+    <div id="aiAnalysis" style="margin-bottom:13px"></div>
+    <div style="display:flex;gap:8px"><button class="btn bp" onclick="auditStep(4)">Evaluar manualmente →</button><button class="btn bg2" onclick="auditStep(2)">← Volver</button></div>
+  </div>
+  <div id="audit-step4" style="display:none">
+    <div class="flow-box"><div class="flow-icon">⭐</div><div class="flow-text"><strong>Paso 4:</strong> Calificá cada dimensión de 1 a 5 estrellas. El puntaje se calcula automáticamente según el peso de cada dimensión. El resultado se guarda en Salesforce.</div></div>
+    <div id="rubricBoxes"></div>
+    <div id="scoreResult" style="margin:13px 0"></div>
+    <div style="display:flex;gap:8px"><button class="btn bp" id="btnSave" disabled onclick="auditStep(5)">✅ Guardar evaluación →</button><button class="btn bg2" onclick="auditStep(3)">← Volver</button></div>
+  </div>
+  <div id="audit-step5" style="display:none">
+    <div class="flow-box" style="background:rgba(0,201,167,.08);border-color:rgba(0,201,167,.3)"><div class="flow-icon">✅</div><div class="flow-text"><strong>¡Evaluación guardada en Salesforce!</strong> Zapier disparó automáticamente el Coaching Bot que envía un DM privado al agente en Slack con su feedback personalizado.</div></div>
+    <div id="finalResult" style="margin-bottom:14px"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn bp" onclick="resetAudit()">📋 Auditar otro caso</button>
+      <button class="btn bt" onclick="nav('coaching')">🎓 Ver el coaching generado →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ PREDICTOR ════ -->
+
+<div class="panel" id="p-predictor">
+  <div class="flow-box"><div class="flow-icon">🎯</div><div class="flow-text"><strong>Predictor de CSAT:</strong> Antes de enviar, la IA predice el CSAT probable. Probá la diferencia entre una respuesta formal y una empática - mirá cómo el velocímetro cambia en tiempo real.</div></div>
+  <div style="background:rgba(0,13,43,.6);border:1px solid rgba(91,141,239,.15);border-radius:10px;padding:12px;margin-bottom:14px">
+    <div style="font-size:10px;color:var(--teal);font-weight:700;letter-spacing:1px;margin-bottom:7px">CONTEXTO DEL CASO</div>
+    <div style="font-size:12px;color:var(--gray2);line-height:1.65">
+      <strong style="color:#fff">Caso #5241 · Valentina R.</strong><br>
+      Asunto: Transferencia de $85.000 retenida hace 3 días<br>
+      <em style="color:var(--gray)">"Ya llamé dos veces y nadie me da una respuesta concreta. Necesito ese dinero para pagar el alquiler."</em><br>
+      <span style="color:var(--red);font-size:11px">Tono: Frustración extrema · 2do contacto · CSAT anterior: 1/5</span>
+    </div>
+  </div>
+  <div class="two">
+    <div>
+      <div style="font-size:11px;color:var(--gray);margin-bottom:6px">✏️ Escribí o elegí una respuesta</div>
+      <textarea id="ptxt" style="width:100%;min-height:140px;background:rgba(0,26,77,.6);border:1.5px solid rgba(91,141,239,.25);border-radius:10px;padding:12px;color:#fff;font-family:'DM Sans';font-size:13px;line-height:1.7;resize:vertical;outline:none;transition:border-color .3s" placeholder="Escribí la respuesta al cliente..." oninput="updP()"></textarea>
+      <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn brd bsm" onclick="loadT('cold')">❌ Respuesta formal (CSAT bajo)</button>
+        <button class="btn bt bsm" onclick="loadT('warm')">✅ Respuesta empática (CSAT alto)</button>
+      </div>
+      <div style="margin-top:11px;padding:10px 12px;background:rgba(0,13,43,.5);border-radius:8px;font-size:11px;color:var(--gray);line-height:1.6">
+        💡 <strong style="color:var(--gray2)">La IA analiza:</strong> Empatía, personalización, claridad, resolución concreta y tono emocional en relación al contexto específico del cliente.
+      </div>
+    </div>
+    <div>
+      <div style="font-size:11px;color:var(--gray);margin-bottom:10px;text-align:center">CSAT Predicho en tiempo real</div>
+      <div class="gw"><div class="gt"></div><div class="gn" id="gn"></div></div>
+      <div style="text-align:center;font-size:28px;font-weight:700;font-family:'Space Mono';color:var(--teal);transition:all .5s;min-height:36px" id="pv">-</div>
+      <div style="text-align:center;font-size:11px;color:var(--gray);margin-top:3px;min-height:16px" id="pl">Escribí o seleccioná una respuesta</div>
+      <div style="margin-top:14px" id="pb"></div>
+      <div style="margin-top:10px" id="psug"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ CASO MODELO ════ -->
+
+<div class="panel" id="p-modelo">
+  <div class="flow-box"><div class="flow-icon">🏆</div><div class="flow-text"><strong>Caso Modelo de la Semana:</strong> Zapier busca automáticamente el caso con mayor puntaje cada viernes y lo publica en #cx-equipo. La IA explica por qué fue extraordinario.</div></div>
+  <div class="mc2">
+    <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px">
+      <span class="t2 tg_">🏆 Caso Modelo · Semana 16</span><span class="t2 tt_">CSAT 5/5</span><span class="t2 tb_">Calidad IA: 96/100</span>
+    </div>
+    <div style="font-size:14px;font-weight:700;margin-bottom:2px">Caso #5238 - Agente: Laura M.</div>
+    <div style="font-size:12px;color:var(--gray);margin-bottom:10px">Cliente: Marcos T. · QR que no funciona en supermercado · Resuelto en 1er contacto</div>
+    <div style="font-size:9px;color:var(--lb);font-weight:700;letter-spacing:1px;margin-bottom:4px">MENSAJE DEL CLIENTE</div>
+    <div style="font-size:12px;color:var(--gray2);font-style:italic;background:rgba(0,13,43,.5);padding:9px 12px;border-radius:8px;border-left:3px solid var(--lb);margin-bottom:10px;line-height:1.6">"Buen día, intenté pagar con QR en el Dia y no me reconoció el código. Me dio vergüenza porque había gente en la fila. Me podrían ayudar?"</div>
+    <div style="font-size:9px;color:var(--orange);font-weight:700;letter-spacing:1px;margin-bottom:4px">RESPUESTA DE LAURA M.</div>
+    <div class="mq">"Hola Marcos! Qué momento incómodo, te entiendo perfectamente. Vamos a resolverlo ahora mismo. El problema suele ser de cache de la app. Cerrala completamente, volvé a abrirla y probá de nuevo. Si no funciona, mandame el número de comercio que aparece debajo del QR y lo reviso yo personalmente."</div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:11px">
+      <div style="text-align:center"><div style="font-size:15px;font-weight:700;font-family:'Space Mono';color:#00C9A7">100%</div><div style="font-size:9px;color:var(--gray)">Empatía</div></div>
+      <div style="text-align:center"><div style="font-size:15px;font-weight:700;font-family:'Space Mono';color:#5B8DEF">95%</div><div style="font-size:9px;color:var(--gray)">Resolución</div></div>
+      <div style="text-align:center"><div style="font-size:15px;font-weight:700;font-family:'Space Mono';color:#00C9A7">100%</div><div style="font-size:9px;color:var(--gray)">Claridad</div></div>
+      <div style="text-align:center"><div style="font-size:15px;font-weight:700;font-family:'Space Mono';color:#00C9A7">98%</div><div style="font-size:9px;color:var(--gray)">SLA</div></div>
+    </div>
+  </div>
+  <div class="two">
+    <div>
+      <div style="font-size:10px;color:var(--teal);font-weight:700;letter-spacing:1px;margin-bottom:9px">ANÁLISIS DE IA - ¿POR QUÉ FUE EL MEJOR?</div>
+      <div style="padding:12px;background:rgba(0,45,140,.25);border:1px solid rgba(91,141,239,.15);border-radius:10px;margin-bottom:8px"><div style="font-size:12px;font-weight:700;margin-bottom:4px">Empatía con el contexto social</div><div style="font-size:12px;color:var(--gray2);line-height:1.5">Identificó que el cliente sentía vergüenza pública y lo validó antes de dar la solución. Esto redujo la tensión emocional antes de cualquier instrucción técnica.</div></div>
+      <div style="padding:12px;background:rgba(0,45,140,.25);border:1px solid rgba(91,141,239,.15);border-radius:10px;margin-bottom:8px"><div style="font-size:12px;font-weight:700;margin-bottom:4px">Solución + plan alternativo en un mensaje</div><div style="font-size:12px;color:var(--gray2);line-height:1.5">Dio la solución inmediata y anticipó el siguiente paso si no funcionaba. El cliente no tuvo que escribir de nuevo.</div></div>
+      <div style="padding:12px;background:rgba(0,45,140,.25);border:1px solid rgba(91,141,239,.15);border-radius:10px"><div style="font-size:12px;font-weight:700;margin-bottom:4px">Compromiso personal explícito</div><div style="font-size:12px;color:var(--gray2);line-height:1.5">"Lo reviso yo personalmente" - no "el equipo lo va a revisar". Esa diferencia genera confianza directa y reduce la ansiedad.</div></div>
+    </div>
+    <div>
+      <div style="font-size:10px;color:var(--teal);font-weight:700;letter-spacing:1px;margin-bottom:9px">PUBLICACIÓN AUTOMÁTICA EN SLACK</div>
+      <div style="background:#001233;border:1px solid rgba(91,141,239,.2);border-radius:11px;padding:15px;font-size:12px;color:#ccc;line-height:1.85;margin-bottom:12px">
+        <div style="color:var(--teal);font-weight:700;margin-bottom:7px">🏆 #cx-equipo · Viernes 25/04 · 17:00</div>
+        <strong style="color:#fff">Caso Modelo de la Semana</strong><br>
+        Caso <strong style="color:#fff">#5238</strong> · <strong style="color:var(--teal)">Laura M.</strong><br>
+        CSAT: ⭐⭐⭐⭐⭐ · Calidad: 96/100<br><br>
+        <em style="color:var(--gray2)">"El reconocimiento emocional inmediato convirtió a un cliente con vergüenza pública en uno que calificó 5/5 en el primer contacto."</em>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div style="background:rgba(0,45,140,.3);border-radius:8px;padding:10px 12px;text-align:center;flex:1"><div style="font-size:19px;font-weight:700;color:var(--teal);font-family:'Space Mono'">+12%</div><div style="font-size:10px;color:var(--gray)">Empatía promedio<br>semana siguiente</div></div>
+        <div style="background:rgba(0,45,140,.3);border-radius:8px;padding:10px 12px;text-align:center;flex:1"><div style="font-size:19px;font-weight:700;color:var(--lb);font-family:'Space Mono'">5</div><div style="font-size:10px;color:var(--gray)">Agentes que<br>adoptaron el patrón</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ VOZ DEL CLIENTE ════ -->
+
+<div class="panel" id="p-voz">
+  <div class="flow-box"><div class="flow-icon">💬</div><div class="flow-text"><strong>Voz del Cliente:</strong> La IA analiza cada comentario de CSAT y lo convierte en un insight que mejora la rúbrica de calidad. Sin datos de clientes reales, las mejoras son intuición. Con esto, son evidencia.</div></div>
+  <div class="three" style="margin-bottom:15px">
+    <div style="background:rgba(0,201,167,.08);border:1px solid rgba(0,201,167,.2);border-radius:10px;padding:13px;text-align:center"><div style="font-size:22px;font-weight:700;color:var(--teal);font-family:'Space Mono'">68%</div><div style="font-size:10px;color:var(--gray)">Tasa de respuesta CSAT</div></div>
+    <div style="background:rgba(0,45,140,.25);border:1px solid rgba(91,141,239,.15);border-radius:10px;padding:13px;text-align:center"><div style="font-size:22px;font-weight:700;color:var(--lb);font-family:'Space Mono'">32</div><div style="font-size:10px;color:var(--gray)">Comentarios analizados</div></div>
+    <div style="background:rgba(255,167,38,.08);border:1px solid rgba(255,167,38,.2);border-radius:10px;padding:13px;text-align:center"><div style="font-size:22px;font-weight:700;color:var(--orange);font-family:'Space Mono'">4</div><div style="font-size:10px;color:var(--gray)">Insights en la rúbrica</div></div>
+  </div>
+  <div id="vozCards"></div>
+</div>
+
+<!-- ════ AGENTES ════ -->
+
+<div class="panel" id="p-agente">
+  <div class="flow-box"><div class="flow-icon">👥</div><div class="flow-text"><strong>Semáforo de Agentes:</strong> Estado de calidad semanal con evidencia concreta. Hacé clic en un agente para ver su perfil completo, progreso y el coaching privado que recibe automáticamente.</div></div>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px" id="agentCards"></div>
+  <div id="agentDetail" style="display:none">
+    <div class="two">
+      <div>
+        <div class="cod">
+          <div class="cdh">
+            <div class="av" style="font-size:15px">🤖</div>
+            <div><div style="font-size:12px;font-weight:700">CX Coach Bot</div><div style="font-size:10px;color:var(--gray)">Mensaje privado - solo lo ve el agente</div></div>
+            <div style="margin-left:auto;font-size:10px;color:var(--teal)" id="agTimestamp"></div>
+          </div>
+          <div style="padding:14px;min-height:100px" id="agCoachMsgs"></div>
+        </div>
+        <div style="background:rgba(0,13,43,.6);border:1px solid rgba(0,201,167,.2);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;padding:12px 14px">
+          <div style="font-size:9px;color:var(--teal);font-weight:700;letter-spacing:1px;margin-bottom:5px">💡 TIP PERSONALIZADO</div>
+          <div style="font-size:13px;color:var(--gray2);line-height:1.65" id="agTip"></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:9px;color:var(--gray);letter-spacing:1px;text-transform:uppercase;font-family:'Space Mono',monospace;margin-bottom:10px">Progreso semanal</div>
+        <div id="agBars"></div>
+        <div style="margin-top:12px" id="agMeta"></div>
+        <div style="margin-top:10px"><button class="btn bg2 bsm" onclick="nav('coaching')">Ver historial completo →</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ COACHING ════ -->
+
+<div class="panel" id="p-coaching">
+  <div class="flow-box"><div class="flow-icon">🎓</div><div class="flow-text"><strong>Coaching Bot:</strong> Después de cada caso cerrado, el agente recibe un DM privado en Slack con feedback personalizado. Sin exposición pública. Con datos concretos. Seleccioná un agente.</div></div>
+  <div class="two">
+    <div>
+      <div class="cod">
+        <div class="cdh">
+          <div class="av" style="font-size:15px">🤖</div>
+          <div><div style="font-size:12px;font-weight:700">CX Coach Bot</div><div style="font-size:10px;color:var(--gray)">Solo lo ve el agente · ahora</div></div>
+        </div>
+        <div style="padding:14px;min-height:120px" id="cMsgs"></div>
+      </div>
+      <div style="background:rgba(0,45,140,.25);border:1px solid rgba(91,141,239,.15);border-radius:11px;padding:13px">
+        <div style="font-size:9px;color:var(--gray);letter-spacing:1px;text-transform:uppercase;font-family:'Space Mono',monospace;margin-bottom:8px">Seleccionar agente</div>
+        <div id="cSel"></div>
+      </div>
+    </div>
+    <div>
+      <div style="background:rgba(0,45,140,.25);border:1px solid rgba(91,141,239,.15);border-radius:11px;padding:14px;margin-bottom:12px">
+        <div style="font-size:9px;color:var(--gray);letter-spacing:1px;text-transform:uppercase;font-family:'Space Mono',monospace;margin-bottom:10px">Progreso del agente</div>
+        <div id="cBars"></div>
+      </div>
+      <div style="background:rgba(0,13,43,.6);border:1px solid rgba(0,201,167,.2);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;padding:12px 14px">
+        <div style="font-size:9px;color:var(--teal);font-weight:700;letter-spacing:1px;margin-bottom:5px">💡 TIP PERSONALIZADO</div>
+        <div style="font-size:13px;color:var(--gray2);line-height:1.65" id="cTip"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div><!-- /app -->
+
+<!-- TOAST -->
+
+<div class="toast" id="toast">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
+    <span style="font-size:16px">🤖</span>
+    <div style="font-size:12px;font-weight:700;color:var(--teal)" id="toastTitle">Alerta CX</div>
+    <button onclick="document.getElementById('toast').classList.remove('show')" style="margin-left:auto;background:none;border:none;color:var(--gray);cursor:pointer;font-size:14px">✕</button>
+  </div>
+  <div style="font-size:13px;color:var(--gray2);line-height:1.6" id="toastMsg"></div>
+</div>
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const CASES=[
+  {id:'5241',client:'Valentina R.',agent:'Sofia T.',trigger:'⚠️ Riesgo CSAT',ai:44,sema:'r',risk:true,
+   asunto:'Transferencia de $85.000 retenida hace 3 días',
+   clientMsg:'Hola, realicé una transferencia de $85.000 el martes y todavía no llegó. Necesito ese dinero para pagar el alquiler. Ya llamé dos veces y nadie me da una respuesta concreta. Esto es inaceptable.',
+   agentResp:'Estimada usuaria, su caso fue derivado al área de operaciones. En breve nos comunicamos.',
+   tone:'Frustración extrema · 2do contacto sin resolución',history:'Caso anterior cerrado hace 4 días sin solución',prevCsat:'1/5'},
+  {id:'5238',client:'Marcos T.',agent:'Laura M.',trigger:'🎲 Aleatorio',ai:96,sema:'g',risk:false,
+   asunto:'Error al escanear QR en supermercado',
+   clientMsg:'Buen día, intenté pagar con QR en el Dia y no me reconoció el código. Me dio vergüenza porque había gente en la fila. Me podrían ayudar?',
+   agentResp:'Hola Marcos! Qué momento incómodo, te entiendo perfectamente. Vamos a resolverlo ahora mismo. El problema suele ser de cache de la app. Cerrala completamente, volvé a abrirla y probá de nuevo. Si no funciona, mandame el número de comercio que aparece debajo del QR y lo reviso yo personalmente.',
+   tone:'Incomodidad leve · primer contacto',history:'Cliente desde 2022 · CSAT siempre 4-5',prevCsat:'4/5'},
+  {id:'5235',client:'Florencia A.',agent:'Camila R.',trigger:'⚠️ Reapertura',ai:61,sema:'o',risk:true,
+   asunto:'Cuenta bloqueada tras cambio de celular',
+   clientMsg:'Cambié de teléfono y ahora no puedo entrar a MODO. Me pide verificación pero el código me llega al celular viejo. Ya hice el reclamo la semana pasada y no lo solucionaron.',
+   agentResp:'Hola Florencia, para recuperar el acceso necesitamos verificar su identidad. Por favor envíenos foto del DNI frente y dorso.',
+   tone:'Ansiedad + frustración · reapertura',history:'Caso anterior cerrado sin resolver hace 7 días',prevCsat:'2/5'},
+  {id:'5231',client:'Ricardo B.',agent:'Mateo P.',trigger:'⚠️ SLA vencido',ai:49,sema:'r',risk:true,
+   asunto:'Doble débito en pago de servicios',
+   clientMsg:'Buenos días. Me hicieron un doble débito ayer cuando pagué el gas. Me descontaron $12.400 dos veces. Necesito que me devuelvan el dinero urgente, estoy en rojo.',
+   agentResp:'Hola Ricardo, vamos a revisar su caso.',
+   tone:'Urgencia económica · situación crítica',history:'Primer contacto · 5.2hs sin respuesta real',prevCsat:'Sin historial'},
+  {id:'5228',client:'Julieta M.',agent:'Diego S.',trigger:'🎲 Aleatorio',ai:79,sema:'y',risk:false,
+   asunto:'Consulta sobre límite diario de transferencias',
+   clientMsg:'Hola! Quería saber cuál es el límite para transferir por día. Necesito mandar $200.000 y no sé si puedo hacerlo de una vez.',
+   agentResp:'Hola Julieta! El límite diario de transferencias en MODO es de $150.000 para cuentas estándar. Podés hacerlo en dos transacciones. También podés solicitar un aumento de límite desde Configuración en 24hs. Cualquier cosa más me avisás!',
+   tone:'Consulta simple · tono amigable',history:'Cliente activo · CSAT siempre alto',prevCsat:'5/5'}
+];
+
+const AGENTS=[
+{id:1,name:‘Laura M.’,casos:23,score:91,emp:94,sla:96,csat:4.8,e:‘g’,
+coach:[‘Laura, semana excelente! 94% de empatía - el más alto del equipo. El caso de Marcos con el QR fue un ejemplo perfecto de cómo manejar clientes con vergüenza pública.’,‘El cliente Sebastián escribió para agradecerte específicamente. Ese tipo de cierre genera lealtad real a largo plazo.’,‘Única oportunidad: anticipar el siguiente paso antes de que el cliente pregunte, para casos de cuenta bloqueada.’],
+tip:‘Tu forma de arrancar con reconocimiento emocional es exactamente lo que buscamos. Esta semana sos el Caso Modelo publicado en #cx-equipo.’},
+{id:2,name:‘Diego S.’,casos:18,score:78,emp:82,sla:88,csat:4.2,e:‘y’,
+coach:[‘Diego, cerraste bien el caso de Julieta con los límites. Respuesta clara y sin jerga técnica - exactamente lo que necesitaba.’,‘En el caso de Ricardo (doble débito), la respuesta fue muy corta para el nivel de urgencia. Tenía plata comprometida.’,‘Tip: cuando el cliente menciona alquiler, deuda o vencimiento, ese caso pasa a urgente automáticamente. Revisalo en el protocolo.’],
+tip:‘Tu claridad técnica es muy buena. El próximo nivel es matchear el nivel de urgencia del cliente con el tono de tu respuesta.’},
+{id:3,name:‘Camila R.’,casos:21,score:72,emp:74,sla:79,csat:3.9,e:‘y’,
+coach:[‘Camila, el caso de Florencia fue un ejemplo de lo que no queremos. Pediste el DNI sin explicar por qué y eso generó desconfianza.’,‘La buena noticia: el cliente igual te calificó 2/5 y no 1/5. Sintió que intentabas ayudar aunque mal ejecutado.’,‘Para la semana que viene: antes de pedir cualquier documento, agregá siempre una frase que explique el motivo y el siguiente paso.’],
+tip:‘Tenés buena disposición para ayudar, se nota. El gap está en la comunicación del proceso. Lo practicamos juntas esta semana.’},
+{id:4,name:‘Mateo P.’,casos:15,score:61,emp:65,sla:70,csat:3.5,e:‘o’,
+coach:[‘Mateo, el caso de Ricardo (doble débito) lleva 5.2hs sin resolución. Eso es crítico para el cliente y para el SLA.’,‘Sé que la semana fue cargada con 15 casos, pero los casos de dinero retenido tienen que ser prioridad 1, siempre.’,‘Vamos a revisar juntos cómo organizar la bandeja para que los casos de dinero queden siempre al tope.’],
+tip:‘Tu conocimiento del producto es muy sólido. Lo que necesitamos trabajar es la priorización. Un caso de dinero mal resuelto cuesta 10 veces más que uno de consulta.’},
+{id:5,name:‘Sofía T.’,casos:12,score:48,emp:52,sla:61,csat:3.1,e:‘r’,
+coach:[‘Sofía, necesito que hablemos. El caso de Valentina fue el tercero de la misma cliente sin resolución. Eso no puede pasar.’,‘La respuesta que enviaste no le da ninguna certeza al cliente sobre qué va a pasar ni cuándo.’,‘Mañana a las 10am nos juntamos para revisar los 2 casos críticos juntas y armar un plan concreto.’],
+tip:‘No te rindas. Estos errores son enseñables y vamos a trabajarlos con datos concretos. Lo que importa es que estemos alineadas en el tipo de atención que queremos dar.’},
+];
+
+const VOZ=[
+{s:5,c:‘La chica me entendió desde el primer mensaje. No tuve que explicar nada dos veces. Resolvió el problema del QR en 5 minutos.’,i:‘Confirmar al inicio que el agente ya leyó el historial. Reduce el tiempo de explicación y mejora la percepción.’,d:‘Resolución’,a:‘✅ Aplicado’},
+{s:1,c:‘Tres días esperando que me devuelvan la plata del doble débito. El primer agente dijo “vamos a revisarlo” y nunca más supe nada.’,i:‘SLA de devolución de dinero: máximo 24hs. Alerta automática en Zapier si supera 4hs sin acción.’,d:‘SLA’,a:‘⚡ Urgente’},
+{s:2,c:‘Me mandaron a sacar foto del DNI pero nunca explicaron por qué ni qué iban a hacer con eso. Me dio desconfianza.’,i:‘Todo pedido de documentación debe ir con explicación clara del motivo. Agregar a rúbrica de Claridad.’,d:‘Claridad’,a:‘🔄 En revisión’},
+{s:4,c:‘El problema se resolvió pero al principio no entendieron lo urgente. Cuando les expliqué que era para el alquiler, cambió el tono.’,i:‘Detectar palabras de urgencia económica (alquiler, deuda, vencimiento) para escalar prioridad automáticamente.’,d:‘Empatía’,a:‘✅ Aplicado’},
+];
+
+const RUB=[
+{d:‘Empatia’,p:30,label:‘🫀 Empatía’,desc:’¿Reconoció la emoción del cliente antes de dar la solución técnica?’},
+{d:‘Resolucion’,p:25,label:‘✅ Resolución’,desc:’¿El problema quedó completamente resuelto en este contacto?’},
+{d:‘Claridad’,p:20,label:‘💬 Claridad’,desc:’¿La respuesta fue simple, sin jerga técnica y fácil de entender?’},
+{d:‘SLA’,p:15,label:‘⏱️ SLA’,desc:’¿Respondió dentro del tiempo establecido por el SLA?’},
+{d:‘Knowledge’,p:10,label:‘📚 Knowledge’,desc:’¿Utilizó correctamente los recursos de la Knowledge Base?’},
+];
+
+const ALERTS=[
+{title:‘⚠️ Caso urgente’,msg:’#5247 - Valentina R. - Transferencia $85.000 retenida 3 días. CSAT predicho: 1.8. Sin asignar.’},
+{title:‘🕐 SLA en riesgo’,msg:’#5231 - Ricardo B. - Doble débito. 5.2hs sin respuesta. Vence SLA en 48 minutos.’},
+{title:‘🔁 Patrón detectado’,msg:‘6 casos de cuenta bloqueada por cambio de celular esta semana. Zapier alertó a producto automáticamente.’},
+];
+let alertIdx=0;
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+const SC={g:’#00C9A7’,y:’#FFA726’,o:’#EF9550’,r:’#EF5350’};
+const SL={g:‘🟢 Excelente’,y:‘🟡 En desarrollo’,o:‘🟠 Necesita apoyo’,r:‘🔴 Crítico’};
+const SK={g:‘sg_’,y:‘sy’,o:‘so’,r:‘sr’};
+function ec(e){return SC[e]} function el(e){return SL[e]} function ek(e){return SK[e]}
+function bar(v,c){return`<div class="sbw"><div class="sbar"><div class="sfi" style="width:0%;background:${c}" data-t="${v}"></div></div><span class="snum" style="color:${c}">${v}</span></div>`}
+function animateBars(){setTimeout(()=>document.querySelectorAll(’.sfi[data-t]’).forEach(b=>b.style.width=b.dataset.t+’%’),150);}
+function cnt(id,target,sfx,dec){
+const el=document.getElementById(id);if(!el)return;
+const step=target/60;let cur=0;
+const t=setInterval(()=>{cur=Math.min(cur+step,target);el.textContent=(dec?cur.toFixed(dec):Math.round(cur))+sfx;if(cur>=target)clearInterval(t);},16);
+}
+function tick(){
+try{const now=new Date();const el=document.getElementById(‘clock’);if(el)el.textContent=now.toLocaleDateString(‘es-AR’,{weekday:‘short’,day:‘2-digit’,month:‘short’}).toUpperCase()+’ ’+now.toLocaleTimeString(‘es-AR’);}catch(e){const el=document.getElementById(‘clock’);if(el)el.textContent=new Date().toLocaleTimeString();}
+}
+setInterval(tick,1000);tick();
+
+// ── NAV ───────────────────────────────────────────────────────────────────
+const PM={dashboard:{t:‘Dashboard de Calidad’,s:‘Semana 16 · Abril 2026 · 47 casos auditados’},auditoria:{t:‘Auditoría de Casos’,s:‘Calificá un caso real paso a paso’},predictor:{t:‘Predictor de CSAT’,s:‘La IA evalúa tu respuesta antes de enviarla’},modelo:{t:‘Caso Modelo de la Semana 🏆’,s:‘El mejor caso analizado por la IA · publicado en Slack’},voz:{t:‘Voz del Cliente’,s:‘Cada comentario de CSAT se convierte en insight accionable’},agente:{t:‘Semáforo de Agentes’,s:‘Estado de calidad por agente con evidencia concreta’},coaching:{t:‘Coaching Bot Privado 🎓’,s:‘Feedback personalizado para cada agente’}};
+
+function nav(id){
+document.querySelectorAll(’.panel’).forEach(p=>p.classList.remove(‘active’));
+document.querySelectorAll(’.ni’).forEach(n=>n.classList.remove(‘active’));
+const panel=document.getElementById(‘p-’+id);if(panel)panel.classList.add(‘active’);
+const ni=document.getElementById(‘ni-’+id);if(ni)ni.classList.add(‘active’);
+const m=PM[id]||{};
+document.getElementById(‘pageTitle’).textContent=m.t||’’;
+document.getElementById(‘pageSub’).textContent=m.s||’’;
+if(id===‘dashboard’)setTimeout(()=>{cnt(‘s1’,4.3,’’,1);cnt(‘s2’,78,’/100’,0);cnt(‘s3’,3,’’,0);cnt(‘s4’,87,’%’,0);},200);
+if(id===‘coaching’)loadCoaching(AGENTS[0].id);
+}
+
+// ── TOUR ─────────────────────────────────────────────────────────────────
+const HINTS={dashboard:‘Los contadores se animan solos · Hacé clic en cualquier fila para ir a auditar ese caso’,auditoria:‘Seleccioná un caso en rojo (riesgo) · Seguí los 5 pasos de auditoría hasta ver el resultado’,predictor:‘Probá primero “Respuesta formal” y después “Empática” · Mirá cómo el velocímetro cambia’,modelo:‘Leé el análisis de IA · Fijate cómo explica por qué el caso fue el mejor de la semana’,agente:‘Hacé clic en cualquier agente para ver su coaching privado y sus métricas de progreso’,coaching:‘Seleccioná un agente diferente · El mensaje del Coaching Bot cambia para cada uno’,voz:‘Cada card muestra un comentario real que ya mejoró la rúbrica de calidad’};
+
+function startTour(id){
+// Hide overlay
+const ov=document.getElementById(‘tourOverlay’);
+if(ov){ov.style.display=‘none’;}
+// Navigate to panel
+nav(id);
+// Init audit if needed
+if(id===‘auditoria’){try{initAudit();}catch(e){console.warn(e);}}
+// Show hint
+try{
+const h=HINTS[id];
+if(h){
+document.getElementById(‘hintTxt’).textContent=’💡 ’+h;
+const hint=document.getElementById(‘hint’);
+hint.classList.add(‘show’);
+setTimeout(()=>hint.classList.remove(‘show’),7000);
+}
+}catch(e){}
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────────────
+function renderDims(){
+const d=[{d:‘Empatía’,v:82,c:’#00C9A7’,p:‘30%’},{d:‘Resolución’,v:74,c:’#5B8DEF’,p:‘25%’},{d:‘Claridad’,v:88,c:’#00C9A7’,p:‘20%’},{d:‘SLA’,v:69,c:’#FFA726’,p:‘15%’},{d:‘Knowledge’,v:61,c:’#EF9550’,p:‘10%’}];
+document.getElementById(‘dims’).innerHTML=d.map(x=>`<div style="margin-bottom:11px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="color:var(--gray2)">${x.d}</span><span style="display:flex;gap:8px"><span style="font-size:9px;color:var(--gray)">${x.p}</span><span style="font-weight:700;font-family:'Space Mono';color:${x.c}">${x.v}%</span></span></div><div class="sbar" style="height:6px"><div class="sfi" style="width:0%;background:${x.c}" data-t="${x.v}"></div></div></div>`).join(’’);
+animateBars();
+}
+
+function renderDashTable(){
+document.getElementById(‘dashTable’).innerHTML=CASES.slice(0,4).map(c=>`<tr onclick="startTour('auditoria');setTimeout(()=>selectCase('${c.id}'),350)"><td>#${c.id}</td><td><div style="font-weight:600;color:#fff">${c.client}</div><div style="font-size:10px;color:var(--gray);margin-top:1px">${c.asunto.substring(0,42)}…</div></td><td>${c.agent}</td><td>${bar(c.ai,ec(c.sema))}</td><td><span class="sema ${ek(c.sema)}">${el(c.sema)}</span></td><td><button class="btn bg2 bsm" style="font-size:10px">Auditar</button></td></tr>`).join(’’);
+animateBars();
+}
+
+function drawChart(){
+const cv=document.getElementById(‘tc’);if(!cv)return;
+const ctx=cv.getContext(‘2d’),W=cv.width,H=cv.height;ctx.clearRect(0,0,W,H);
+const wks=[‘S13’,‘S14’,‘S15’,‘S16’],q=[65,70,72,78],cs=[58,66,71,82];
+const pL=24,pR=8,pT=8,pB=22,cW=W-pL-pR,cH=H-pT-pB;
+[0,25,50,75,100].forEach(v=>{const y=pT+cH-(v/100)*cH;ctx.strokeStyle=‘rgba(91,141,239,.1)’;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(pL,y);ctx.lineTo(W-pR,y);ctx.stroke();ctx.fillStyle=‘rgba(123,155,200,.5)’;ctx.font=‘9px Space Mono’;ctx.textAlign=‘right’;ctx.fillText(v,pL-4,y+3);});
+ctx.textAlign=‘center’;ctx.fillStyle=‘rgba(123,155,200,.7)’;ctx.font=‘10px DM Sans’;
+wks.forEach((w,i)=>ctx.fillText(w,pL+(i/(wks.length-1))*cW,H-4));
+function ln(data,col,dash){ctx.strokeStyle=col;ctx.lineWidth=2.5;ctx.lineJoin=‘round’;ctx.setLineDash(dash?[5,4]:[]);ctx.beginPath();data.forEach((v,i)=>{const x=pL+(i/(data.length-1))*cW,y=pT+cH-(v/100)*cH;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.stroke();ctx.setLineDash([]);data.forEach((v,i)=>{const x=pL+(i/(data.length-1))*cW,y=pT+cH-(v/100)*cH;ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fillStyle=col;ctx.fill();if(i===data.length-1){ctx.fillStyle=col;ctx.font=‘bold 10px Space Mono’;ctx.textAlign=‘left’;ctx.fillText(v+’%’,x+5,y+4);}});}
+ln(q,’#5B8DEF’);ln(cs,’#00C9A7’,true);
+ctx.font=‘10px DM Sans’;ctx.textAlign=‘left’;ctx.fillStyle=’#5B8DEF’;ctx.fillRect(pL,pT,8,3);ctx.fillStyle=’#B8D4F0’;ctx.fillText(‘Calidad’,pL+12,pT+4);ctx.fillStyle=’#00C9A7’;ctx.fillRect(pL+52,pT,8,3);ctx.fillStyle=’#B8D4F0’;ctx.fillText(‘CSAT’,pL+64,pT+4);
+}
+
+// ── AUDIT FLOW ─────────────────────────────────────────────────────────────
+let selCaseId=null,auditSc={};
+
+function initAudit(){
+selCaseId=null;auditSc={};
+document.querySelectorAll(’.case-preview’).forEach(c=>c.classList.remove(‘selected’));
+const btn=document.getElementById(‘btnReadCase’);if(btn)btn.disabled=true;
+document.getElementById(‘caseCards’).innerHTML=CASES.map(c=>`<div class="case-preview" id="cp-${c.id}" onclick="selectCase('${c.id}')"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px"><span style="font-size:10px;font-weight:700;color:${c.risk?'var(--red)':'var(--orange)'}">Caso #${c.id}${c.risk?' ⚠️ RIESGO':''}</span><span class="sema ${ek(c.sema)}" style="font-size:9px">${el(c.sema)}</span></div><div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">${c.client}</div><div style="font-size:11px;color:var(--gray);line-height:1.4">${c.asunto}</div><div style="font-size:10px;color:var(--gray);margin-top:5px">${c.trigger} · ${c.agent}</div></div>`).join(’’);
+auditStep(1);
+}
+
+function selectCase(id){
+selCaseId=id;
+document.querySelectorAll(’.case-preview’).forEach(c=>c.classList.remove(‘selected’));
+const el=document.getElementById(‘cp-’+id);if(el)el.classList.add(‘selected’);
+const btn=document.getElementById(‘btnReadCase’);if(btn)btn.disabled=false;
+}
+
+function resetAudit(){selCaseId=null;auditSc={};initAudit();}
+
+function auditStep(n){
+[1,2,3,4,5].forEach(i=>{
+const s=document.getElementById(‘audit-step’+i);if(s)s.style.display=i===n?‘block’:‘none’;
+const si=document.getElementById(‘as’+i);if(si){si.classList.remove(‘active’,‘done’);if(i<n)si.classList.add(‘done’);else if(i===n)si.classList.add(‘active’);}
+});
+if(n===2&&selCaseId){
+const c=CASES.find(x=>x.id===selCaseId);
+document.getElementById(‘caseDetail’).innerHTML=`<div style="margin-bottom:12px"><div style="font-size:10px;color:var(--teal);font-weight:700;letter-spacing:1px;margin-bottom:5px">DATOS DEL CASO</div><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="t2 tb_">Caso #${c.id}</span><span class="t2 ${c.risk?'tr_':'tt_'}">${c.trigger}</span><span class="t2 to_">Agente: ${c.agent}</span></div></div><div style="margin-bottom:12px"><div style="font-size:10px;color:var(--lb);font-weight:700;letter-spacing:1px;margin-bottom:5px">MENSAJE DEL CLIENTE</div><div style="font-size:13px;color:var(--gray2);line-height:1.7;font-style:italic;padding:10px 14px;background:rgba(0,13,43,.5);border-radius:8px;border-left:3px solid var(--lb)">"${c.clientMsg}"</div><div style="font-size:11px;color:var(--red);margin-top:5px">Tono: ${c.tone}</div></div><div style="margin-bottom:10px"><div style="font-size:10px;color:var(--orange);font-weight:700;letter-spacing:1px;margin-bottom:5px">RESPUESTA DEL AGENTE (${c.agent})</div><div style="font-size:13px;color:var(--gray2);line-height:1.7;padding:10px 14px;background:rgba(0,13,43,.5);border-radius:8px;border-left:3px solid var(--orange)">"${c.agentResp}"</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><div style="flex:1;min-width:140px;background:rgba(0,45,140,.3);border-radius:8px;padding:8px 12px"><div style="font-size:9px;color:var(--gray);margin-bottom:2px">HISTORIAL</div><div style="font-size:12px;color:var(--gray2)">${c.history}</div></div><div style="flex:1;min-width:100px;background:rgba(0,45,140,.3);border-radius:8px;padding:8px 12px"><div style="font-size:9px;color:var(--gray);margin-bottom:2px">CSAT ANTERIOR</div><div style="font-size:12px;color:var(--gray2)">${c.prevCsat}</div></div></div>`;
+}
+if(n===3&&selCaseId){
+const c=CASES.find(x=>x.id===selCaseId);
+document.getElementById(‘aiAnalysis’).innerHTML=`<div style="background:rgba(0,13,43,.7);border:1px solid rgba(0,201,167,.25);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;padding:14px 16px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><span style="font-size:18px">🤖</span><span style="font-size:12px;font-weight:700;color:var(--teal)">Pre-análisis automático de IA</span><span class="t2 tt_" style="margin-left:auto">Score estimado: ${c.ai}/100</span></div>${[['🫀 Empatía detectada',c.ai>=70?'Alta - reconoció la emoción del cliente':'Baja - no reconoció la emoción del cliente',c.ai>=70?'color:var(--teal)':'color:var(--red)'],['✅ Resolución',c.ai>=65?'Completa - el problema se resolvió':'Parcial o nula - sin solución concreta',c.ai>=65?'color:var(--teal)':'color:var(--orange)'],['⏱️ Tiempo SLA',c.trigger.includes('SLA')?'❌ FUERA de SLA - superó el tiempo límite':'✅ En tiempo - respondió dentro del SLA',c.trigger.includes('SLA')?'color:var(--red)':'color:var(--teal)'],['📊 CSAT esperado',c.ai>=80?'4.5-5.0 · Probable recomendación':c.ai>=60?'3.5-4.0 · Satisfecho pero no entusiasmado':'2.0-3.0 · Cliente en riesgo de abandono',c.ai>=80?'color:var(--teal)':c.ai>=60?'color:var(--orange)':'color:var(--red)']].map(([k,v,s])=>`<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;font-size:12px"><span style="min-width:170px;color:var(--gray);flex-shrink:0">${k}</span><span style="font-weight:600;line-height:1.4;${s}">${v}</span></div>`).join('')}<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(91,141,239,.1);font-size:12px;color:var(--gray2)"><strong style="color:var(--orange)">Foco para la evaluación manual:</strong> ${c.ai<60?'Empatía y Resolución - ambas en riesgo crítico':c.ai<75?'SLA y Resolución - observar cuidadosamente':'Evaluar Knowledge Base - el resto está bien'}</div></div>`;
+}
+if(n===4){
+auditSc={};
+document.getElementById(‘rubricBoxes’).innerHTML=RUB.map(r=>`<div class="rr"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div><div style="font-size:12px;font-weight:700">${r.label}</div><div style="font-size:10px;color:var(--gray);font-family:'Space Mono'">Peso: ${r.p}%</div></div><div style="display:flex;gap:5px" id="rs${r.d}">${[1,2,3,4,5].map(n=>`<div class="rst" onclick="setScore('${r.d}',${n})">★</div>`).join('')}</div></div><div style="font-size:11px;color:var(--gray);line-height:1.4">${r.desc}</div></div>`).join(’’);
+document.getElementById(‘scoreResult’).innerHTML=’<div style="text-align:center;padding:12px;background:rgba(0,45,140,.2);border:1px solid rgba(91,141,239,.15);border-radius:10px;font-size:13px;color:var(--gray)">Calificá las 5 dimensiones para ver el puntaje final</div>’;
+document.getElementById(‘btnSave’).disabled=true;
+}
+if(n===5&&selCaseId){
+let t=0;RUB.forEach(r=>{t+=(auditSc[r.d]||0)/5*r.p;});t=Math.round(t);
+const col=t>=85?‘var(–teal)’:t>=70?‘var(–orange)’:t>=55?’#EF9550’:‘var(–red)’;
+const lbl=t>=85?‘🟢 Excelente’:t>=70?‘🟡 En desarrollo’:t>=55?‘🟠 Necesita apoyo’:‘🔴 Crítico’;
+const c=CASES.find(x=>x.id===selCaseId);
+document.getElementById(‘finalResult’).innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px"><div style="text-align:center;padding:20px;background:rgba(0,45,140,.25);border:1.5px solid ${col};border-radius:12px;animation:fu .4s ease"><div style="font-size:36px;font-weight:700;font-family:'Space Mono';color:${col}">${t}<span style="font-size:18px">/100</span></div><div style="font-size:14px;margin-top:5px">${lbl}</div><div style="font-size:11px;color:var(--gray);margin-top:3px">Guardado en Salesforce</div></div><div style="padding:16px;background:rgba(0,13,43,.5);border:1px solid rgba(91,141,239,.15);border-radius:12px"><div style="font-size:10px;color:var(--teal);font-weight:700;letter-spacing:1px;margin-bottom:8px">ACCIONES AUTOMÁTICAS</div><div style="font-size:12px;color:var(--gray2);line-height:1.8">✅ Evaluación guardada en Salesforce<br>${t<55?'🔴 Caso escalado a #cx-recuperacion<br>':''}${t>=85?'🏆 Candidato a Caso Modelo del viernes<br>':''}🤖 Coaching Bot → DM privado a ${c.agent}<br>📊 Índice de empatía actualizado</div></div></div>`;
+}
+}
+
+function setScore(dim,val){
+auditSc[dim]=val;
+document.querySelectorAll(’#rs’+dim+’ .rst’).forEach((s,i)=>{s.classList.toggle(‘lit’,i<val);if(i<val){s.style.transform=‘scale(1.15)’;setTimeout(()=>s.style.transform=‘scale(1)’,120);}});
+if(Object.keys(auditSc).length===RUB.length){
+let t=0;RUB.forEach(r=>{t+=(auditSc[r.d]/5)*r.p;});t=Math.round(t);
+const col=t>=85?‘var(–teal)’:t>=70?‘var(–orange)’:t>=55?’#EF9550’:‘var(–red)’;
+const lbl=t>=85?‘🟢 Excelente’:t>=70?‘🟡 En desarrollo’:t>=55?‘🟠 Necesita apoyo’:‘🔴 Crítico’;
+document.getElementById(‘scoreResult’).innerHTML=`<div style="text-align:center;padding:15px;background:rgba(0,45,140,.25);border:1.5px solid ${col};border-radius:10px;animation:fu .3s ease"><div style="font-size:30px;font-weight:700;font-family:'Space Mono';color:${col}">${t}<span style="font-size:16px">/100</span></div><div style="font-size:13px;margin-top:4px">${lbl}</div></div>`;
+document.getElementById(‘btnSave’).disabled=false;
+}
+}
+
+// ── PREDICTOR ─────────────────────────────────────────────────────────────
+const TW=`Hola Valentina,\n\nEntiendo perfectamente lo urgente y frustrante que es esta situación. Tres días esperando por una transferencia de esa magnitud es completamente inaceptable, y tenés toda la razón en estar enojada.\n\nYa tomé tu caso personalmente. Estoy revisando el historial de la transacción ahora mismo y te doy una respuesta concreta en los próximos 20 minutos con la fecha exacta de acreditación.\n\nTe pido disculpas por la demora anterior. Esto no tendría que haber pasado.\n\nGracias por tu paciencia,\n[Tu nombre]`;
+const TC=`Estimada usuaria,\n\nEn respuesta a su consulta le informamos que su caso fue derivado al área de operaciones según los procedimientos internos. Los plazos de resolución pueden demorar hasta 72 horas hábiles.\n\nCualquier novedad será informada por este medio.\n\nSaludos cordiales,\nServicio al Cliente MODO`;
+
+function loadT(t){document.getElementById(‘ptxt’).value=t===‘warm’?TW:TC;updP();}
+
+function updP(){
+const txt=document.getElementById(‘ptxt’).value.toLowerCase();
+if(txt.length<10){document.getElementById(‘pv’).textContent=’-’;document.getElementById(‘pl’).textContent=‘Escribí o seleccioná una respuesta’;document.getElementById(‘gn’).style.setProperty(’–ang’,’-90deg’);document.getElementById(‘pb’).innerHTML=’’;document.getElementById(‘psug’).innerHTML=’’;return;}
+const ew=[‘entiendo’,‘comprendo’,‘frustrante’,‘disculpa’,‘siento’,‘personalmente’,‘hoy mismo’,‘gracias’,‘razón’,‘urgente’,‘incómodo’];
+const cw=[‘estimada’,‘informamos’,‘procedimiento’,‘derivado’,‘normativa’,‘brevedad’];
+let e=0,c=0;ew.forEach(w=>{if(txt.includes(w))e++;});cw.forEach(w=>{if(txt.includes(w))c++;});
+const hasN=txt.includes(‘valentina’)||txt.includes(‘marcos’)||txt.includes(‘maria’);
+const hasS=txt.includes(‘resolv’)||txt.includes(‘hoy mismo’)||txt.includes(‘minutos’)||txt.includes(‘ahora mismo’);
+const score=Math.min(Math.max(2.5+(e*.28)-(c*.38)+(hasN?.25:0)+(hasS?.35:0),1),5);
+const r=Math.round(score*10)/10;
+document.getElementById(‘gn’).style.setProperty(’–ang’,(-90+((score-1)/4)*180)+‘deg’);
+const col=score>=4?’#00C9A7’:score>=3?’#FFA726’:’#EF5350’;
+document.getElementById(‘pv’).textContent=r.toFixed(1);document.getElementById(‘pv’).style.color=col;document.getElementById(‘pv’).style.textShadow=`0 0 20px ${col}55`;
+document.getElementById(‘pl’).textContent=score>=4.5?‘Excelente - CSAT probable 5’:score>=4?‘Bueno - CSAT probable 4-5’:score>=3?‘Regular - CSAT probable 3-4’:‘En riesgo - CSAT probable 1-3’;
+const ds=[{l:‘🫀 Empatía’,v:Math.min(100,e*16+(c>2?-25:0)),c:’#00C9A7’},{l:‘💬 Claridad’,v:Math.max(20,100-(c*22)),c:’#5B8DEF’},{l:‘✅ Resolución’,v:hasS?88:38,c:’#00C9A7’},{l:‘👤 Personalización’,v:hasN?92:28,c:’#FFA726’}];
+document.getElementById(‘pb’).innerHTML=ds.map(d=>`<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="color:var(--gray2)">${d.l}</span><span style="font-weight:700;color:${d.c};font-family:'Space Mono'">${d.v}%</span></div><div class="sbar"><div class="sfi" style="width:${d.v}%;background:${d.c}"></div></div></div>`).join(’’);
+const sug=e<3?`💡 <strong style="color:var(--orange)">Falta empatía:</strong> Reconocé la frustración del cliente ANTES de dar información. Empezá con "Entiendo perfectamente..."`:c>0?`💡 <strong style="color:var(--orange)">Tono muy formal:</strong> Reemplazá "informamos", "procedimiento", "derivado" por lenguaje cercano.`:!hasN?`💡 <strong style="color:var(--lb)">Personalizá:</strong> Usá el nombre del cliente al inicio. Sube el CSAT predicho +0.3.`:`✅ <strong style="color:var(--teal)">¡Excelente!</strong> Tiene empatía, personalización y solución concreta. Lista para enviar.`;
+document.getElementById(‘psug’).innerHTML=`<div style="background:rgba(0,45,140,.3);border:1px solid rgba(91,141,239,.2);border-left:3px solid ${col};border-radius:0 9px 9px 0;padding:10px 13px;font-size:12px;color:var(--gray2);line-height:1.6">${sug}</div>`;
+}
+
+// ── AGENTS ─────────────────────────────────────────────────────────────────
+function renderAgentCards(){
+const c=document.getElementById(‘agentCards’);if(!c)return;
+c.innerHTML=AGENTS.map(a=>`<div class="agent-card" id="ac-${a.id}" onclick="loadAgentDetail(${a.id})"><div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div class="av" style="width:36px;height:36px;font-size:13px">${a.name[0]}</div><div style="font-size:12px;font-weight:700;text-align:center">${a.name}</div></div><div style="font-size:22px;font-weight:700;font-family:'Space Mono';color:${ec(a.e)};text-align:center;margin:8px 0">${a.score}</div><div style="text-align:center"><span class="sema ${ek(a.e)}" style="font-size:9px">${el(a.e)}</span></div><div style="font-size:10px;color:var(--gray);text-align:center;margin-top:5px">${a.casos} casos</div></div>`).join(’’);
+}
+
+function loadAgentDetail(id){
+const a=AGENTS.find(x=>x.id===id);
+document.querySelectorAll(’.agent-card’).forEach(c=>c.classList.remove(‘selected’));
+const card=document.getElementById(‘ac-’+id);if(card)card.classList.add(‘selected’);
+document.getElementById(‘agentDetail’).style.display=‘block’;
+const ts=document.getElementById(‘agTimestamp’);if(ts)ts.textContent=new Date().toLocaleTimeString(‘es-AR’,{hour:‘2-digit’,minute:‘2-digit’});
+const cm=document.getElementById(‘agCoachMsgs’);cm.innerHTML=’’;
+a.coach.forEach((msg,i)=>setTimeout(()=>{const div=document.createElement(‘div’);div.style.cssText=‘margin-bottom:9px;font-size:13px;color:var(–gray2);line-height:1.65;opacity:0;transition:opacity .4s’;div.textContent=msg;cm.appendChild(div);setTimeout(()=>div.style.opacity=‘1’,50);},i*420));
+document.getElementById(‘agTip’).textContent=a.tip;
+document.getElementById(‘agBars’).innerHTML=[{l:‘Empatía’,v:a.emp,c:’#00C9A7’},{l:‘SLA’,v:a.sla,c:’#5B8DEF’},{l:‘CSAT×20’,v:Math.round(a.csat*20),c:’#FFA726’},{l:‘Cobertura’,v:Math.min(a.casos*4,100),c:’#00C9A7’}].map(b=>`<div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><span style="font-size:11px;color:var(--gray);min-width:90px">${b.l}</span><div class="sbar" style="flex:1;height:5px"><div class="sfi" style="width:0%;background:${b.c}" data-t="${b.v}"></div></div><span style="font-size:10px;font-weight:700;font-family:'Space Mono';color:${b.c};min-width:28px">${b.v}%</span></div>`).join(’’);
+document.getElementById(‘agMeta’).innerHTML=`<div style="background:rgba(0,45,140,.2);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--gray2);line-height:1.7"><strong style="color:#fff">CSAT:</strong> ${a.csat}/5 &nbsp;·&nbsp; <strong style="color:#fff">Casos:</strong> ${a.casos} &nbsp;·&nbsp; <span class="sema ${ek(a.e)}" style="font-size:10px">${el(a.e)}</span></div>`;
+animateBars();
+}
+
+function renderCoachSel(){
+const c=document.getElementById(‘cSel’);if(!c)return;
+c.innerHTML=AGENTS.map(a=>`<div onclick="loadCoaching(${a.id})" id="cs-${a.id}" style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;margin-bottom:4px;cursor:pointer;border:1px solid rgba(91,141,239,.1);transition:all .2s"><div class="av" style="width:24px;height:24px;font-size:10px">${a.name[0]}</div><div style="flex:1;font-size:12px;font-weight:600">${a.name}</div><span class="sema ${ek(a.e)}" style="font-size:9px;padding:2px 7px">${a.score}/100</span></div>`).join(’’);
+}
+
+function loadCoaching(id){
+const a=AGENTS.find(x=>x.id===id);
+document.querySelectorAll(’[id^=“cs-”]’).forEach(e=>e.style.background=’’);
+const sel=document.getElementById(‘cs-’+id);if(sel)sel.style.background=‘rgba(0,61,165,.25)’;
+const cm=document.getElementById(‘cMsgs’);cm.innerHTML=’’;
+a.coach.forEach((msg,i)=>setTimeout(()=>{const div=document.createElement(‘div’);div.style.cssText=‘margin-bottom:9px;font-size:13px;color:var(–gray2);line-height:1.65;opacity:0;transition:opacity .4s’;div.textContent=msg;cm.appendChild(div);setTimeout(()=>div.style.opacity=‘1’,50);},i*420));
+document.getElementById(‘cBars’).innerHTML=[{l:‘Empatía’,v:a.emp,c:’#00C9A7’},{l:‘SLA’,v:a.sla,c:’#5B8DEF’},{l:‘CSAT’,v:Math.round(a.csat*20),c:’#FFA726’},{l:‘Cobertura’,v:Math.min(a.casos*4,100),c:’#00C9A7’}].map(b=>`<div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><span style="font-size:11px;color:var(--gray);min-width:85px">${b.l}</span><div class="sbar" style="flex:1;height:5px"><div class="sfi" style="width:0%;background:${b.c}" data-t="${b.v}"></div></div><span style="font-size:10px;font-weight:700;font-family:'Space Mono';color:${b.c};min-width:28px">${b.v}%</span></div>`).join(’’);
+document.getElementById(‘cTip’).textContent=a.tip;
+animateBars();
+}
+
+function renderVoz(){
+const c=document.getElementById(‘vozCards’);if(!c)return;
+c.innerHTML=VOZ.map(v=>`<div class="vc"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="color:var(--gold);font-size:13px">${'★'.repeat(v.s)}${'☆'.repeat(5-v.s)}</span><div style="display:flex;gap:5px"><span class="t2 tb_">${v.d}</span><span class="t2 ${v.a.includes('Aplicado')?'tt_':v.a.includes('Urgente')?'tr_':'to_'}">${v.a}</span></div></div><div style="font-size:13px;color:var(--gray2);line-height:1.65;margin-bottom:9px;font-style:italic">"${v.c}"</div><div class="vi"><strong style="color:var(--teal)">💡 Insight IA:</strong> ${v.i}</div></div>`).join(’’);
+}
+
+function nextAlert(){
+const a=ALERTS[alertIdx%ALERTS.length];
+document.getElementById(‘toastTitle’).textContent=a.title;
+document.getElementById(‘toastMsg’).textContent=a.msg;
+const t=document.getElementById(‘toast’);t.classList.remove(‘show’);setTimeout(()=>t.classList.add(‘show’),10);setTimeout(()=>t.classList.remove(‘show’),6000);
+alertIdx++;
+}
+
+document.addEventListener(‘DOMContentLoaded’,()=>{
+[renderDims,renderDashTable,renderAgentCards,renderCoachSel,renderVoz,initAudit].forEach(fn=>{try{fn();}catch(e){}});
+setTimeout(()=>{try{drawChart();}catch(e){}},300);
+setTimeout(()=>{try{cnt(‘s1’,4.3,’’,1);cnt(‘s2’,78,’/100’,0);cnt(‘s3’,3,’’,0);cnt(‘s4’,87,’%’,0);}catch(e){}},400);
+setTimeout(()=>nextAlert(),2000);
+setInterval(()=>nextAlert(),40000);
+});
+document.addEventListener(‘keydown’,e=>{if(e.key===‘h’||e.key===‘H’)document.getElementById(‘tourOverlay’).style.display=‘flex’;if(e.key===‘Escape’)document.getElementById(‘tourOverlay’).style.display=‘none’;});
+</script>
+
+</body>
+</html>
